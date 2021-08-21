@@ -579,6 +579,7 @@ std::vector<int> squarePanels = {
             0x00A15, // Symmetry Island Transparent 3
             0x00B53, // Symmetry Island Transparent 4
             0x00B8D, // Symmetry Island Transparent 5
+            0x0C335, // Tutorial Pillar
 };
 
 std::vector<int> desertPanels = {
