@@ -37,7 +37,7 @@ private:
 
     void Randomize(std::vector<int>& panels, int flags);
     void RandomizeRange(std::vector<int> &panels, int flags, size_t startIndex, size_t endIndex);
-    void SwapPanels(int panel1, int panel2, int flags);
+    void Tutorialise(int panel1, int copyFrom);
     void ReassignTargets(const std::vector<int>& panels, const std::vector<int>& order, std::vector<int> targets = {});
     void ReassignNames(const std::vector<int>& panels, const std::vector<int>& order);
 

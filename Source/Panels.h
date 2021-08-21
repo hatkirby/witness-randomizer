@@ -67,6 +67,13 @@ std::vector<int> leftForwardRightPanels = {
     0x17E52, // Treehouse Green 4
 };
 
+std::vector<int> utmPerspective = {
+    0x288EA, // UTM Perspective 1
+    0x288FC, // UTM Perspective 2
+    0x289E7, // UTM Perspective 3
+    0x288AA, // UTM Perspective 4
+};
+
 std::vector<int> pillars = {
     0x0383D, // Mountain 3 Left Pillar 1
     0x0383F, // Mountain 3 Left Pillar 2
@@ -117,8 +124,8 @@ std::vector<int> mountainMultipanel = {
 };
 
 std::vector<int> squarePanels = {
-    0x00064, // Tutorial Straight
-    0x00182, // Tutorial Bend
+    //0x00064, // Tutorial Straight
+    //0x00182, // Tutorial Bend
     0x0A3B2, // Tutorial Back Right
     0x00295, // Tutorial Center Left
     0x00293, // Tutorial Front Center
@@ -433,6 +440,145 @@ std::vector<int> squarePanels = {
     0x0A16E, // UTM Challenge Entrance
     0x039B4, // Tunnels Theater Catwalk
     0x09E85, // Tunnels Town Shortcut
+
+        0x00698, // Desert Surface 1
+        0x0048F, // Desert Surface 2
+        0x09F92, // Desert Surface 3
+        0x0A036, // Desert Surface 4
+        0x09DA6, // Desert Surface 5
+        0x0A049, // Desert Surface 6
+        0x0A053, // Desert Surface 7
+        0x09F94, // Desert Surface 8
+        0x00422, // Desert Light 1
+        0x006E3, // Desert Light 2
+        0x0A02D, // Desert Light 3
+        0x00C72, // Desert Pond 1
+        0x0129D, // Desert Pond 2
+        0x008BB, // Desert Pond 3
+        0x0078D, // Desert Pond 4
+        0x18313, // Desert Pond 5
+        0x04D18, // Desert Flood 1
+        0x01205, // Desert Flood 2
+        0x181AB, // Desert Flood 3
+        0x0117A, // Desert Flood 4
+        0x17ECA, // Desert Flood 5
+        0x18076, // Desert Flood Exit
+        0x0A15C, // Desert Final Left Convex
+        0x09FFF, // Desert Final Left Concave
+        0x0A15F, // Desert Final Near
+        0x012D7, // Desert Final Far
+        0x09F7D, // Bunker Tutorial 1
+        0x09FDC, // Bunker Tutorial 2
+        0x09FF7, // Bunker Tutorial 3
+        0x09F82, // Bunker Tutorial 4
+        0x09FF8, // Bunker Tutorial 5
+        0x09D9F, // Bunker Advanced 1
+        0x09DA1, // Bunker Advanced 2
+        0x09DA2, // Bunker Advanced 3
+        0x09DAF, // Bunker Advanced 4
+    //    0x0A099, // Bunker Glass Door
+        0x0A010, // Bunker Glass 1
+        0x0A01B, // Bunker Glass 2
+        0x0A01F, // Bunker Glass 3
+        0x17E63, // Bunker Ultraviolet 1
+        0x17E67, // Bunker Ultraviolet 2
+        0x002C4, // Jungle Waves 1
+        0x00767, // Jungle Waves 2
+        0x002C6, // Jungle Waves 3
+        0x0070E, // Jungle Waves 4
+        0x0070F, // Jungle Waves 5
+        0x0087D, // Jungle Waves 6
+        0x002C7, // Jungle Waves 7
+    //    0x17CAB, // Jungle Pop-up Wall
+        0x0026D, // Jungle Dots 1
+        0x0026E, // Jungle Dots 2
+        0x0026F, // Jungle Dots 3
+        0x00C3F, // Jungle Dots 4
+        0x00C41, // Jungle Dots 5
+        0x014B2, // Jungle Dots 6
+        0x198B5, // Shadows Tutorial 1
+        0x198BD, // Shadows Tutorial 2
+        0x198BF, // Shadows Tutorial 3
+        0x19771, // Shadows Tutorial 4
+        0x0A8DC, // Shadows Tutorial 5
+        0x0AC74, // Shadows Tutorial 6
+        0x0AC7A, // Shadows Tutorial 7
+        0x0A8E0, // Shadows Tutorial 8
+        0x386FA, // Shadows Avoid 1
+        0x1C33F, // Shadows Avoid 2
+        0x196E2, // Shadows Avoid 3
+        0x1972A, // Shadows Avoid 4
+        0x19809, // Shadows Avoid 5
+        0x19806, // Shadows Avoid 6
+        0x196F8, // Shadows Avoid 7
+        0x1972F, // Shadows Avoid 8
+        0x19797, // Shadows Follow 1
+        0x1979A, // Shadows Follow 2
+        0x197E0, // Shadows Follow 3
+        0x197E8, // Shadows Follow 4
+        0x197E5, // Shadows Follow 5
+        0x19650, // Shadows Laser
+
+        0x09FCC, // Mountain 2 Multipanel 1
+        0x09FCE, // Mountain 2 Multipanel 2
+        0x09FCF, // Mountain 2 Multipanel 3
+        0x09FD0, // Mountain 2 Multipanel 4
+        0x09FD1, // Mountain 2 Multipanel 5
+        0x09FD2, // Mountain 2 Multipanel 6
+
+        0x00290, // Monastery Exterior 1
+        0x00038, // Monastery Exterior 2
+        0x00037, // Monastery Exterior 3
+    //    0x09D9B, // Monastery Bonsai
+        0x193A7, // Monastery Interior 1
+        0x193AA, // Monastery Interior 2
+        0x193AB, // Monastery Interior 3
+        0x193A6, // Monastery Interior 4
+
+
+
+            0x03629, // Tutorial Gate Open
+            
+            0x0C373, // Tutorial Patio floor
+            0x1C349, // Symmetry Island Door 2 - Collision fails here, sadly
+            
+            0x28A69, // Town Lattice
+            0x28A79, // Town Maze
+            0x28B39, // Town Red Hexagonal
+            
+            0x18590, // Town Transparent
+            0x28AE3, // Town Wire
+
+
+
+            0x0383D, // Mountain 3 Left Pillar 1
+            0x0383F, // Mountain 3 Left Pillar 2
+            0x03859, // Mountain 3 Left Pillar 3
+            0x339BB, // Mountain 3 Left Pillar 4
+     
+            0x0383A, // Mountain 3 Right Pillar 1
+            0x09E56, // Mountain 3 Right Pillar 2
+            0x09E5A, // Mountain 3 Right Pillar 3
+            0x33961, // Mountain 3 Right Pillar 4
+
+            0x09DD5, // UTM Challenge Pillar
+
+
+    0x09FD8, // Mountain 2 Rainbow 5
+            0x17CAA, // Jungle Courtyard Gate
+            0x0005C, // Glass Factory Vertical Symmetry 5
+            0x17C31, // Desert Final Transparent
+
+            0x00143, // Orchard Apple Tree 1
+            0x0003B, // Orchard Apple Tree 2
+            0x00055, // Orchard Apple Tree 3
+            0x032F7, // Orchard Apple Tree 4
+            0x032FF, // Orchard Apple Tree 5
+            0x009B8, // Symmetry Island Transparent 1
+            0x003E8, // Symmetry Island Transparent 2
+            0x00A15, // Symmetry Island Transparent 3
+            0x00B53, // Symmetry Island Transparent 4
+            0x00B8D, // Symmetry Island Transparent 5
 };
 
 std::vector<int> desertPanels = {

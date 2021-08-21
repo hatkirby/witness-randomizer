@@ -107,7 +107,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
                         PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_CHALLENGE_DONE, NULL);
                     } else {
                         SetWindowText(g_randomizerStatus, L"Randomizing...");
-                        MEMORY_CATCH(g_randomizer->Randomize());
+                        g_randomizer->Randomize();
                         PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_DONE, NULL);
                     }
                 }).detach();

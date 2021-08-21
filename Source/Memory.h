@@ -55,6 +55,31 @@ public:
     void AddSigScan(const std::vector<byte>& scanBytes, const std::function<void(int index)>& scanFunc);
     int ExecuteSigScans();
 
+    template <typename T>
+    void CopyEntityData(int fromId, int toId, int offset, int size) {
+        WriteEntityData<T>(toId, offset, ReadEntityData<T>(fromId, offset, size));
+    }
+
+    template <typename T>
+    void CopyArray(int fromId, int toId, int offset, int size) {
+        if (size == 0) {
+            WriteEntityData<uintptr_t>(toId, offset, { static_cast<uintptr_t>(0) });
+        }
+        else {
+            WriteNewArray<T>(toId, offset, ReadArray<T>(fromId, offset, size));
+        }
+    }
+
+    template <typename T>
+    void CopyArrayDynamicSize(int fromId, int toId, int arrayOffset, int sizeOffset) {
+        CopyArray<T>(fromId, toId, arrayOffset, ReadEntityData<int>(fromId, sizeOffset, sizeof(int))[0]);
+    }
+
+    template <class T>
+    void WritePanelData(int panel, int offset, const std::vector<T>& data) {
+        WriteData<T>({ GLOBALS, 0x18, panel * 8, offset }, data);
+    }
+
 private:
     template<class T>
     std::vector<T> ReadData(const std::vector<int>& offsets, size_t numItems) {
