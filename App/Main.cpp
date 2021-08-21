@@ -5,17 +5,12 @@
 #include "Memory.h"
 #include "Random.h"
 #include "Randomizer.h"
-#include "Randomizer2.h"
 #include "Panels_.h"
 
 #define HEARTBEAT 0x401
 #define RANDOMIZE_READY 0x402
 #define RANDOMIZING 0403
 #define RANDOMIZE_DONE 0x404
-#define RANDOMIZE_CHALLENGE_DONE 0x405
-#define CHALLENGE_ONLY 0x406
-#define DISABLE_SNIPES 0x407
-#define SPEED_UP_AUTOSCROLLERS 0x408
 
 /* ------- Temp ------- */
 #include "Solver.h"
@@ -23,10 +18,6 @@
 #include <sstream>
 #include <iomanip>
 
-#define TMP1 0x501
-#define TMP2 0x502
-#define TMP3 0x503
-#define TMP4 0x504
 
 HWND g_panelId;
 Puzzle g_puzzle;
@@ -37,13 +28,11 @@ HWND g_rngDebug;
 
 // Globals
 HWND g_hwnd;
-HWND g_seed;
+//HWND g_seed;
 HWND g_randomizerStatus;
 HINSTANCE g_hInstance;
 auto g_witnessProc = std::make_shared<Memory>(L"witness64_d3d11.exe");
 std::shared_ptr<Randomizer> g_randomizer;
-std::shared_ptr<Randomizer2> g_randomizer2;
-void SetRandomSeed();
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	if (message == WM_DESTROY) {
@@ -64,169 +53,55 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
                         // Shut down randomizer, wait for startup
                         if (g_randomizer) {
                             g_randomizer = nullptr;
-                            g_randomizer2 = nullptr;
                             EnableWindow(g_randomizerStatus, FALSE);
                         }
                         break;
                     case ProcStatus::Running:
                         if (!g_randomizer) {
                             g_randomizer = std::make_shared<Randomizer>(g_witnessProc);
-                            g_randomizer2 = std::make_shared<Randomizer2>(g_witnessProc);
                             PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_READY, NULL);
                         }
                         break;
                     case ProcStatus::NewGame: // This status will fire only once per new game
-                        SetWindowText(g_seed, L"");
+                        //SetWindowText(g_seed, L"");
                         PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_READY, NULL);
                         break;
                     }
                 break;
             case RANDOMIZE_READY:
                 EnableWindow(g_randomizerStatus, TRUE);
-                if (IsDlgButtonChecked(hwnd, CHALLENGE_ONLY)) {
-                    SetWindowText(g_randomizerStatus, L"Randomize Challenge");
-                } else {
-                    SetWindowText(g_randomizerStatus, L"Randomize");
-                }
+                SetWindowText(g_randomizerStatus, L"Tutorialise");
                 break;
             case RANDOMIZING:
                 if (!g_randomizer) break; // E.g. an enter press at the wrong time
                 EnableWindow(g_randomizerStatus, FALSE);
 
-                SetRandomSeed();
                 std::thread([]{
-                    if (IsDlgButtonChecked(g_hwnd, DISABLE_SNIPES)) {
-                        MEMORY_CATCH(g_randomizer->PreventSnipes());
-                    }
-                    if (IsDlgButtonChecked(g_hwnd, SPEED_UP_AUTOSCROLLERS)) {
-                        MEMORY_CATCH(g_randomizer->AdjustSpeed());
-                    }
-                    if (IsDlgButtonChecked(g_hwnd, CHALLENGE_ONLY)) {
-                        SetWindowText(g_randomizerStatus, L"Randomizing Challenge...");
-                        MEMORY_CATCH(g_randomizer->RandomizeChallenge());
-                        PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_CHALLENGE_DONE, NULL);
-                    } else {
-                        SetWindowText(g_randomizerStatus, L"Randomizing...");
-                        g_randomizer->Randomize();
-                        PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_DONE, NULL);
-                    }
+                    SetWindowText(g_randomizerStatus, L"Tutorialising...");
+                    g_randomizer->Randomize();
+                    PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_DONE, NULL);
                 }).detach();
                 break;
             case RANDOMIZE_DONE:
                 EnableWindow(g_randomizerStatus, FALSE);
-                SetWindowText(g_randomizerStatus, L"Randomized!");
+                SetWindowText(g_randomizerStatus, L"Tutorialised!");
                 break;
-            case RANDOMIZE_CHALLENGE_DONE:
-                EnableWindow(g_randomizerStatus, FALSE);
-                SetWindowText(g_randomizerStatus, L"Randomized Challenge!");
-                std::thread([]{
-                    // Allow re-randomization for challenge -- it doesn't break the rest of the game.
-                    std::this_thread::sleep_for(std::chrono::seconds(10));
-                    PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_READY, NULL);
-                }).detach();
-                break;
-            case CHALLENGE_ONLY:
-                CheckDlgButton(hwnd, CHALLENGE_ONLY, !IsDlgButtonChecked(hwnd, CHALLENGE_ONLY));
-                if (IsWindowEnabled(g_randomizerStatus)) {
-                    PostMessage(g_hwnd, WM_COMMAND, RANDOMIZE_READY, NULL);
-                }
-                break;
-            case DISABLE_SNIPES:
-                CheckDlgButton(hwnd, DISABLE_SNIPES, !IsDlgButtonChecked(hwnd, DISABLE_SNIPES));
-                break;
-            case SPEED_UP_AUTOSCROLLERS:
-                CheckDlgButton(hwnd, SPEED_UP_AUTOSCROLLERS, !IsDlgButtonChecked(hwnd, SPEED_UP_AUTOSCROLLERS));
-                break;
-            case TMP1:
-                {
-                    std::wstring text(128, L'\0');
-                    int length = GetWindowText(g_panelId, text.data(), static_cast<int>(text.size()));
-                    text.resize(length);
-                    std::wstringstream s;
-                    int panelId;
-                    s << text;
-                    s >> std::hex >> panelId;
-                    g_puzzle = PuzzleSerializer(g_witnessProc).ReadPuzzle(panelId);
-                }
-                break;
-            case TMP2:
-                {
-                    std::wstring text(128, L'\0');
-                    int length = GetWindowText(g_panelId, text.data(), static_cast<int>(text.size()));
-                    text.resize(length);
-                    std::wstringstream s;
-                    int panelId;
-                    s << text;
-                    s >> std::hex >> panelId;
-                    PuzzleSerializer(g_witnessProc).WritePuzzle(g_puzzle, panelId);
-                }
-                break;
-            case TMP3:
-                {
-                    for (auto [key, value] : PANELS) {
-                        std::stringstream out;
-                        std::string name(value);
-                        out << "  {'id': 0x" << std::hex << std::uppercase << std::setfill('0') << std::setw(5) << key << ", 'area':'";
-                        int k;  
-                        for (k=0; name[k] != ' '; k++) out << name[k];
-                        if (name[k+2] == ' ') {
-                            out << name[k] << name[k+1];
-                            k += 2;
-                        }
-                        out << "', 'name':'";
-                        k++;
-                        for (k; k < name.size(); k++) out << name[k];
-                        out << "', 'data':'";
-                        auto puzzle = PuzzleSerializer(g_witnessProc).ReadPuzzle(key);
-                        out << puzzle.Serialize();
-                        out << "'},\r\n";
-                        DebugPrint(out.str());
-                    }
-                }
 
-                // Solver::Solve(g_puzzle);
-                break;
-            case TMP4:
-                SetRandomSeed();
-                g_randomizer2->Randomize();
-            case TMP5:
-                {
-                    std::wstring text;
-                    for (int i=0; i<10; i++) {
-                        Random::SetSeed(i);
-                        int rng = Random::RandInt(0, 999999);
-                        text += std::to_wstring(rng) + L"\n";
-                    }
-                    SetWindowText(g_rngDebug, text.c_str());
-                }
         }
     }
     return DefWindowProc(hwnd, message, wParam, lParam);
-}
-
-void SetRandomSeed() {
-    std::wstring text(128, L'\0');
-    int length = GetWindowText(g_seed, text.data(), static_cast<int>(text.size()));
-    if (length > 0) { // Set seed
-        text.resize(length);
-        Random::SetSeed(_wtoi(text.c_str()));
-    } else { // Random seed
-        int seed = Random::RandInt(0, 999999);
-
-        text = std::to_wstring(seed);
-        SetWindowText(g_seed, text.c_str());
-        CHARRANGE range = {0, static_cast<long>(text.length())};
-        PostMessage(g_seed, EM_EXSETSEL, NULL, (LPARAM)&range);
-        SetFocus(g_seed);
-
-		Random::SetSeed(seed);
-    }
 }
 
 HWND CreateLabel(int x, int y, int width, LPCWSTR text) {
 	return CreateWindow(L"STATIC", text,
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | SS_LEFT,
 		x, y, width, 16, g_hwnd, NULL, g_hInstance, NULL);
+}
+
+HWND CreateMultiLabel(int x, int y, int width, int height, LPCWSTR text) {
+    return CreateWindow(L"STATIC", text,
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | SS_LEFT,
+        x, y, width, height, g_hwnd, NULL, g_hInstance, NULL);
 }
 
 HWND CreateText(int x, int y, int width, LPCWSTR defaultText = L"") {
@@ -271,32 +146,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	RECT rect;
     GetClientRect(GetDesktopWindow(), &rect);
 	g_hwnd = CreateWindow(WINDOW_CLASS, PRODUCT_NAME, WS_OVERLAPPEDWINDOW,
-      rect.right - 550, 200, 500, 500, nullptr, nullptr, hInstance, nullptr);
+      rect.right - 550, 200, 500, 180, nullptr, nullptr, hInstance, nullptr);
 
-    CreateLabel(390, 15, 90, L"Version: " VERSION_STR);
-    g_seed = CreateText(10, 10, 100);
-    PostMessage(g_seed, EM_SETEVENTMASK, 0, ENM_KEYEVENTS);
-    g_randomizerStatus = CreateButton(120, 10, 180, L"Randomize", RANDOMIZING);
+    CreateMultiLabel(10, 10, 460, 86, L"This mod replaces most puzzles in the game with Tutorial Straight (the first puzzle in the tunnel where you start the game). Certain special panels are unaffected. Additionally, some panels (e.g. the tutorial gate, and every puzzle in Bunker) behave a little strangely now, and can be solved by simply double clicking in the middle of the panel.");
+    CreateLabel(390, 110, 90, L"Version: " VERSION_STR);
+    //g_seed = CreateText(10, 10, 100);
+    //PostMessage(g_seed, EM_SETEVENTMASK, 0, ENM_KEYEVENTS);
+    g_randomizerStatus = CreateButton(120, 105, 180, L"Tutorialise", RANDOMIZING);
     EnableWindow(g_randomizerStatus, FALSE);
-    CreateCheckbox(10, 300, CHALLENGE_ONLY);
-    CreateLabel(30, 300, 200, L"Randomize the challenge only");
-    CreateCheckbox(10, 320, DISABLE_SNIPES);
-    CheckDlgButton(g_hwnd, DISABLE_SNIPES, TRUE);
-    CreateLabel(30, 320, 240, L"Disable Swamp and Shadows snipes");
-    CreateCheckbox(10, 340, SPEED_UP_AUTOSCROLLERS);
-    CreateLabel(30, 340, 205, L"Speed up various autoscrollers");
 
-    // CreateButton(200, 50, 200, L"Test RNG", TMP5);
-    // g_rngDebug = CreateWindow(L"STATIC", L"",
-	//     WS_TABSTOP | WS_VISIBLE | WS_CHILD | SS_LEFT,
-	//     200, 80, 200, 200, g_hwnd, NULL, g_hInstance, NULL);
-#ifndef NDEBUG
-    g_panelId = CreateText(200, 100, 100, L"59");
-    CreateButton(200, 130, 100, L"Read", TMP1);
-    CreateButton(200, 160, 100, L"Write", TMP2);
-    CreateButton(200, 190, 100, L"Solve", TMP3);
-    CreateButton(200, 220, 100, L"Randomize2", TMP4);
-#endif
 
     g_witnessProc->StartHeartbeat(g_hwnd, HEARTBEAT);
 

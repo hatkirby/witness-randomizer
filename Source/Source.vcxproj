@@ -172,8 +172,6 @@
     <ClInclude Include="PuzzleSerializer.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Randomizer.h" />
-    <ClInclude Include="Randomizer2.h" />
-    <ClInclude Include="Randomizer2Core.h" />
     <ClInclude Include="Solver.h" />
     <ClInclude Include="Validator.h" />
   </ItemGroup>
@@ -190,8 +188,6 @@
     <ClCompile Include="PuzzleSerializer.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Randomizer.cpp" />
-    <ClCompile Include="Randomizer2.cpp" />
-    <ClCompile Include="Randomizer2Core.cpp" />
     <ClCompile Include="Solver.cpp" />
     <ClCompile Include="Validator.cpp" />
   </ItemGroup>
