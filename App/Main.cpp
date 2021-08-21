@@ -13,7 +13,6 @@
 #define RANDOMIZE_DONE 0x404
 
 /* ------- Temp ------- */
-#include "Solver.h"
 #include "PuzzleSerializer.h"
 #include <sstream>
 #include <iomanip>
@@ -150,11 +149,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
     CreateMultiLabel(10, 10, 460, 86, L"This mod replaces most puzzles in the game with Tutorial Straight (the first puzzle in the tunnel where you start the game). Certain special panels are unaffected. Additionally, some panels (e.g. the tutorial gate, and every puzzle in Bunker) behave a little strangely now, and can be solved by simply double clicking in the middle of the panel.");
     CreateLabel(390, 110, 90, L"Version: " VERSION_STR);
-    //g_seed = CreateText(10, 10, 100);
-    //PostMessage(g_seed, EM_SETEVENTMASK, 0, ENM_KEYEVENTS);
     g_randomizerStatus = CreateButton(120, 105, 180, L"Tutorialise", RANDOMIZING);
     EnableWindow(g_randomizerStatus, FALSE);
-
 
     g_witnessProc->StartHeartbeat(g_hwnd, HEARTBEAT);
 
