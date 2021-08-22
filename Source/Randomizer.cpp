@@ -116,13 +116,15 @@ void Randomizer::Randomize() {
 
     // begin_endgame_1 - Prevent actually ending the game (Wonkavator)
     _memory->AddSigScan({0x83, 0x7C, 0x01, 0xD0, 0x04}, [&](int index){
-        if (GLOBALS == 0x5B28C0) { // Version differences.
+        if (Memory::GLOBALS == 0x5B28C0) { // Version differences.
             index += 0x75;
-        } else if (GLOBALS == 0x62D0A0) {
+        } else if (Memory::GLOBALS == 0x62D0A0) {
             index += 0x86;
         }
         _memory->WriteData<byte>({index}, {0xEB}); // jz -> jmp
     });
+
+    //Tutorialise(0x33AF5, 0x0A3B2);
 
     // Tutorial Bend
     for (int panel : utmPerspective) {

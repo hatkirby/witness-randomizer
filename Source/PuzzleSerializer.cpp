@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PuzzleSerializer.h"
+#include "Randomizer.h"
 
 PuzzleSerializer::PuzzleSerializer(const std::shared_ptr<Memory>& memory) : _memory(memory) {}
 
