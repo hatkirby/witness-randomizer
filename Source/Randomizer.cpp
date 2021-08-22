@@ -124,6 +124,8 @@ void Randomizer::Randomize() {
         _memory->WriteData<byte>({index}, {0xEB}); // jz -> jmp
     });
 
+    _memory->ExecuteSigScans();
+
     //Tutorialise(0x33AF5, 0x0A3B2);
 
     // Tutorial Bend
