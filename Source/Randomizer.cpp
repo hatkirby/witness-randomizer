@@ -126,7 +126,9 @@ void Randomizer::Randomize() {
 
     _memory->ExecuteSigScans();
 
-    //Tutorialise(0x33AF5, 0x0A3B2);
+    // Glass Factory Entry (for Mountain Blue 1 and 2)
+    Tutorialise(0x33AF5, 0x01A54);
+    Tutorialise(0x33AF7, 0x01A54);
 
     // Tutorial Bend
     for (int panel : utmPerspective) {
@@ -194,8 +196,12 @@ void Randomizer::Tutorialise(int panel1, int tutorialStraight) {
     _memory->CopyArrayDynamicSize<int>(tutorialStraight, panel1, DECORATIONS, NUM_DECORATIONS);
     _memory->CopyArrayDynamicSize<int>(tutorialStraight, panel1, DECORATION_FLAGS, NUM_DECORATIONS);
     _memory->CopyArrayDynamicSize<int>(tutorialStraight, panel1, DECORATION_COLORS, NUM_DECORATIONS);
-    //_memory->CopyArrayDynamicSize<int>(tutorialStraight, panel1, REFLECTION_DATA, NUM_DOTS);
-    _memory->WritePanelData<long long>(panel1, REFLECTION_DATA, { 0 });
+    if (_memory->ReadPanelData<int>(tutorialStraight, REFLECTION_DATA)) {
+        _memory->CopyArrayDynamicSize<int>(tutorialStraight, panel1, REFLECTION_DATA, NUM_DOTS);
+    }
+    else {
+        _memory->WritePanelData<long long>(panel1, REFLECTION_DATA, { 0 });
+    }
     _memory->CopyEntityData<byte>(tutorialStraight, panel1, SEQUENCE_LEN, sizeof(int));
     _memory->CopyArrayDynamicSize<int>(tutorialStraight, panel1, SEQUENCE, SEQUENCE_LEN);
     _memory->CopyEntityData<byte>(tutorialStraight, panel1, DOT_SEQUENCE_LEN, sizeof(int));
