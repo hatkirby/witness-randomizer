@@ -538,6 +538,7 @@ std::vector<int> squarePanels = {
 
 
             0x03629, // Tutorial Gate Open
+            0x03505, // Tutorial Gate Close
             
             0x0C373, // Tutorial Patio floor
             0x1C349, // Symmetry Island Door 2 - Collision fails here, sadly
