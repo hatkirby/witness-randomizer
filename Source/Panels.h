@@ -595,6 +595,11 @@ std::vector<int> squarePanels = {
             0x03858, // Boathouse Ramp Position Control
             0x275FA, // Boathouse Hook Control
             0x17CC4, // Railroad Elevator
+            0x17E2B, // Swamp Flood Gate Control
+            0x00609, // Swamp Surface Sliding Bridge Control
+            0x18488, // Swamp Underwater Sliding Bridge Control
+            0x17C0A, // Swamp Island Control 1
+            0x17E07, // Swamp Island Control 2
 };
 
 std::vector<int> desertPanels = {
