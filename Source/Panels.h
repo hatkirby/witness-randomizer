@@ -551,7 +551,6 @@ std::vector<int> squarePanels = {
             0x28AE3, // Town Wire
 
 
-
             0x0383D, // Mountain 3 Left Pillar 1
             0x0383F, // Mountain 3 Left Pillar 2
             0x03859, // Mountain 3 Left Pillar 3
@@ -582,12 +581,20 @@ std::vector<int> squarePanels = {
             0x00B8D, // Symmetry Island Transparent 5
             0x0C335, // Tutorial Pillar
 
-
             0x09F8E, //Bottom Right
             0x09FC1, //Bottom Left
             0x09F01, //Top Right
             0x09EFF, //Top Left
             0x09FDA, // metapuzzle
+
+            0x03678, // Mill Lower Ramp Contol
+            0x03679, // Mill Lower Lift Control
+            0x03675, // Mill Upper Lift Control
+            0x03676, // Mill Upper Ramp Control
+            0x03852, // Boathouse Ramp Angle Control
+            0x03858, // Boathouse Ramp Position Control
+            0x275FA, // Boathouse Hook Control
+            0x17CC4, // Railroad Elevator
 };
 
 std::vector<int> desertPanels = {
