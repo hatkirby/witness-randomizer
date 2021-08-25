@@ -211,8 +211,7 @@ void Randomizer::Tutorialise(int panel1, int tutorialStraight) {
     _memory->CopyEntityData<byte>(tutorialStraight, panel1, GRID_SIZE_X, sizeof(int));
     _memory->CopyEntityData<byte>(tutorialStraight, panel1, GRID_SIZE_Y, sizeof(int));
     _memory->CopyEntityData<byte>(tutorialStraight, panel1, STYLE_FLAGS, sizeof(int));
-
-
+    _memory->WritePanelData<byte>(panel1, RANDOMISE_ON_POWER_ON, { 0 });
 
 
         //arrays.push_back(AUDIO_PREFIX);

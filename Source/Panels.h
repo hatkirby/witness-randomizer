@@ -600,6 +600,27 @@ std::vector<int> squarePanels = {
             0x18488, // Swamp Underwater Sliding Bridge Control
             0x17C0A, // Swamp Island Control 1
             0x17E07, // Swamp Island Control 2
+
+            0x01983, // Mountain 3 Left Peekaboo
+            0x01987, // Mountain 3 Right Peekaboo
+
+            0x0088E, // Challenge Easy Maze
+            0x00BAF, // Challenge Hard Maze
+            0x00BF3, // Challenge Stones Maze
+            /*0x0051F, // Challenge Column Bottom Left
+            0x00524, // Challenge Column Top Right
+            0x00CDB, // Challenge Column Top Left
+            0x00CD4, // Challenge Column Far Panel*/
+            /*0x00C80, // Challenge Triple 1 Left
+            0x00CA1, // Challenge Triple 1 Center
+            0x00CB9, // Challenge Triple 1 Right
+            0x00C22, // Challenge Triple 2 Left
+            0x00C59, // Challenge Triple 2 Center
+            0x00C68, // Challenge Triple 2 Right*/
+            0x034EC, // Challenge Triangle
+            0x034F4, // Challenge Triangle
+            0x1C31A, // Challenge Left Pillar
+            0x1C319, // Challenge Right Pillar
 };
 
 std::vector<int> desertPanels = {
