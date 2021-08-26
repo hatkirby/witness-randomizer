@@ -17,3 +17,4 @@ The following environmental puzzles are impossible in this mod:
 * Swamp Purple Sand Outward EP
 * Swamp Purple Sand Middle EP
 * Swamp Purple Sand Inward EP is a special case. This puzzle is solveable at the start of the game, but can become impossible depending on your actions. The Swamp Floodgate can only be closed in this mod, so if you want to solve this EP you must do it before solving the floodgate.
+* Swamp Floodgate EP
