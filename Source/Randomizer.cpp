@@ -126,10 +126,6 @@ void Randomizer::Randomize() {
 
     _memory->ExecuteSigScans();
 
-    // Glass Factory Entry (for Mountain Blue 1 and 2)
-    Tutorialise(0x33AF5, 0x01A54);
-    Tutorialise(0x33AF7, 0x01A54);
-
     // Tutorial Bend
     for (int panel : utmPerspective) {
         Tutorialise(panel, 0x00182);

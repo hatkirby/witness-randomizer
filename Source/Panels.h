@@ -149,7 +149,7 @@ std::vector<int> squarePanels = {
     0x04CA4, // Tutorial Optional Door 2
     0x17CFB, // Outside Tutorial Discard
     0x3C12B, // Glass Factory Discard
-    //0x01A54, // Glass Factory Entry
+    0x01A54, // Glass Factory Entry
     0x00086, // Glass Factory Vertical Symmetry 1
     0x00087, // Glass Factory Vertical Symmetry 2
     0x00059, // Glass Factory Vertical Symmetry 3
@@ -621,6 +621,10 @@ std::vector<int> squarePanels = {
             0x034F4, // Challenge Triangle
             0x1C31A, // Challenge Left Pillar
             0x1C319, // Challenge Right Pillar
+
+            0x33AF5, // Mountain 1 Blue 1
+            0x33AF7, // Mountain 1 Blue 2
+            0x09F6E, // Mountain 1 Blue 3
 };
 
 std::vector<int> desertPanels = {
