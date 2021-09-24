@@ -91,7 +91,6 @@ public:
         return ReadData<T>({ GLOBALS, 0x18, panel * 8, offset }, size);
     }
 
-    static int GLOBALS;
 private:
     template<class T>
     std::vector<T> ReadData(const std::vector<int>& offsets, size_t numItems) {
