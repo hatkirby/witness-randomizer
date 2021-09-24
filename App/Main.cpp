@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Richedit.h"
 #include "Version.h"
-#include <fstream>
 
 #include "Memory.h"
 #include "Random.h"
@@ -125,29 +124,6 @@ HWND CreateCheckbox(int x, int y, int message) {
 }
 #pragma warning(pop)
 
-int findGlobals() {
-        int address = 0;
-        for (int i = 0x620000; i < 0x660000; i += 4) {
-            Memory::GLOBALS = i;
-            try {
-                if ((address = g_witnessProc->ReadPanelData<int>(0x17E52, STYLE_FLAGS, 1)[0]) == 0x0000A040) {
-                    return i;
-                }
-            }
-            catch (std::exception) {}
-        }
-        for (int i = 0x600000; i < 0x620000; i += 4) {
-            Memory::GLOBALS = i;
-            try {
-                if ((address = g_witnessProc->ReadPanelData<int>(0x17E52, STYLE_FLAGS, 1)[0]) == 0x0000A040) {
-                    return i;
-                }
-            }
-            catch (std::exception) {}
-        }
-        return 0;
-}
-
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow) {
 	LoadLibrary(L"Msftedit.dll");
 	WNDCLASSW wndClass = {
@@ -163,40 +139,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		WINDOW_CLASS,
 	};
 	RegisterClassW(&wndClass);
-
-    //Initialize memory globals constant depending on game version
-    for (int g : Memory::globalsTests) {
-        try {
-            Memory::GLOBALS = g;
-            if (g_witnessProc->ReadPanelData<int>(0x17E52, STYLE_FLAGS) != 0xA040) throw std::exception();
-            break;
-        }
-        catch (std::exception) { Memory::GLOBALS = 0; }
-    }
-    if (!Memory::GLOBALS) {
-        std::ifstream file("globals.txt");
-        if (file.is_open()) {
-            file >> std::hex >> Memory::GLOBALS;
-        }
-        else {
-            std::string str = "Globals ptr not found. Press OK to search for globals ptr. It will probably take around 5 minutes. This popup will close and the calculation will run in the background. Please keep The Witness open during this time.";
-            if (MessageBox(GetActiveWindow(), std::wstring(str.begin(), str.end()).c_str(), NULL, MB_OK) != IDOK) return 0;
-            int address = findGlobals();
-            if (address) {
-                std::stringstream ss; ss << std::hex << "Address found: 0x" << address << ". This address wil be automatically loaded next time. Please post an issue on Github with this address so that it can be added in the future.";
-                std::string str = ss.str();
-                MessageBox(GetActiveWindow(), std::wstring(str.begin(), str.end()).c_str(), NULL, MB_OK);
-                std::ofstream ofile("globals.txt", std::ofstream::app);
-                ofile << std::hex << address << std::endl;
-            }
-            else {
-                str = "Address could not be found. Please post an issue on the Github page.";
-                MessageBox(GetActiveWindow(), std::wstring(str.begin(), str.end()).c_str(), NULL, MB_OK);
-                return 0;
-            }
-        }
-    }
-
 
     g_hInstance = hInstance;
 
