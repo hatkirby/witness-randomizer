@@ -134,6 +134,14 @@ void Randomizer::Randomize() {
     for (int panel : squarePanels) {
         Tutorialise(panel, 0x00064);
     }
+    // Town Laser Redirect Control
+    for (int panel : treehousePivots) {
+        Tutorialise(panel, 0x09F98);
+
+        // Mark the panel as pivotable.
+        int panelFlags = _memory->ReadEntityData<int>(panel, STYLE_FLAGS, 1)[0];
+        _memory->WriteEntityData<int>(panel, STYLE_FLAGS, { panelFlags | 0x8000 });
+    }
 
     // Disable tutorial cursor speed modifications (not working?)
     _memory->WriteEntityData<float>(0x00295, CURSOR_SPEED_SCALE, { 1.0 });

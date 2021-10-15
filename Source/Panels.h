@@ -67,6 +67,13 @@ std::vector<int> leftForwardRightPanels = {
     0x17E52, // Treehouse Green 4
 };
 
+std::vector<int> treehousePivots = {
+    0x17DD1, // Treehouse Left Orange 9
+    0x17CE3, // Treehouse Right Orange 4
+    0x17DB7, // Treehouse Right Orange 10
+    0x17E52, // Treehouse Green 4
+};
+
 std::vector<int> utmPerspective = {
     0x288EA, // UTM Perspective 1
     0x288FC, // UTM Perspective 2
